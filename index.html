@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        h1,h2{text-align: center;}
+    </style>
+</head>
+	<body>
+	<div class="container">
+	<h1> Network Connection Type</h1>
+	<h2 id="networkType"> </h2>
+                <script type="text/javascript">
+            networkConnectionType={};
+            function networkInformation() {
+                    var networkState = navigator.connection.type || navigator.mozConnection.type || navigator.webkitConnection.type;
+                    testData.connectionType = networkState;
+                    downMax=navigator.connection.downlinkMax || navigator.mozConnection.downlinkMax || navigator.webkitConnection.downlinkMax;
+                    networkConnectionType.connectionSpeed = downMax*1000;
+                    downMax = downMax*1000;
+                    if(networkState == "cellular") {
+                        if(downMax >= 100000) {
+                            networkConnectionType.networkName = "4G";
+                        }
+                        if(downMax >= 42000 && downMax < 100000) {
+                            networkConnectionType.networkName = "3G";
+                        }
+                        if(downMax < 42000) {
+                            networkConnectionType.networkName = "2G";
+                        }
+                    }
+                    else if(networkState=='wifi'){
+                        networkConnectionType.networkName="wifi";
+                    }
+                    else if(networkState=='unknown'){
+                        networkConnectionType.networkName="unknown";
+                    }
+                    else if(networkState=='ethernet'){
+                        networkConnectionType.networkName="ethernet";
+                    }
+                    else if(networkState=='other'){
+                        networkConnectionType.networkName="other";
+                    }
+                    else{
+                        networkConnectionType.networkName="none";
+                    }
+                    dataLayer.push({
+                    'networkConnectionType':networkConnectionType
+                });
+               // alert(networkConnectionType.networkName);
+                        document.getElementById('networkType').innerHTML=networkConnectionType.networkName
+            }
+            networkInformation();
+        </script>
+   
+	</body>
+</html>
